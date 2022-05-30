@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt");
 const jsonwebtoken = require("jsonwebtoken");
-const debug = require("debug")("desterra:server:middlewares:errors");
 const User = require("../../database/models/User");
 
 const loginUser = async (req, res, next) => {
@@ -30,7 +29,7 @@ const loginUser = async (req, res, next) => {
 
       next(error);
     } else {
-      const token = jsonwebtoken.sign(userData, process.env.JWT_SECRET_USER);
+      const token = jsonwebtoken.sign(userData, process.env.SECRET);
 
       res.status(200).json({ token });
     }
