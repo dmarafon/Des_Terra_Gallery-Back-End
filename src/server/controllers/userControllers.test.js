@@ -2,7 +2,6 @@ const bcrypt = require("bcrypt");
 const { loginUser } = require("./userControllers");
 const User = require("../../database/models/User");
 
-const mockExpectedToken = "xxxx";
 jest.mock("../../database/models/User", () => ({
   findOne: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
 }));
@@ -12,6 +11,8 @@ jest.mock("bcrypt", () => ({
   compare: () =>
     jest.fn().mockResolvedValueOnce(true).mockRejectedValueOnce(false),
 }));
+
+const mockExpectedToken = "testToken";
 
 jest.mock("jsonwebtoken", () => ({
   ...jest.requireActual("jsonwebtoken"),
@@ -29,9 +30,11 @@ describe("Given the loginUser controller", () => {
       const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
       await loginUser(req, res);
 
+      const expectedToken = { token: mockExpectedToken };
+
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
 
-      expect(res.json).toHaveBeenCalledWith({ token: mockExpectedToken });
+      expect(res.json).toHaveBeenCalledWith(expectedToken);
     });
   });
 
