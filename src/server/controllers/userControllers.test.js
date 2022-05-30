@@ -22,7 +22,12 @@ jest.mock("jsonwebtoken", () => ({
 const next = jest.fn();
 
 describe("Given the loginUser controller", () => {
-  const req = { body: { username: "Daddy", password: "Yankee" } };
+  const req = {
+    body: {
+      email: "testemail2@test.com",
+      password: "test2",
+    },
+  };
   describe("When invoked with a request object with a correct username and password", () => {
     test("Then a response with status 200, and a body containing a token will be received", async () => {
       const expectedStatus = 200;

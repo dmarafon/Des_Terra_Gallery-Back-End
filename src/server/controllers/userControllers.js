@@ -3,21 +3,20 @@ const jsonwebtoken = require("jsonwebtoken");
 const User = require("../../database/models/User");
 
 const loginUser = async (req, res, next) => {
-  const username = req.body.username.toString();
-  const password = req.body.password.toString();
+  const { email, password } = req.body;
 
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ email });
 
   if (!user) {
-    const error = new Error("Incorrect password");
+    const error = new Error("Incorrect email");
     error.statusCode = 403;
-    error.customMessage = "Username or password is wrong";
+    error.customMessage = "Email or password is wrong";
 
     next(error);
   } else {
     const userData = {
-      name: user.name,
-      username: user.username,
+      firstName: user.firstName,
+      email: user.email,
       id: user.id,
     };
     const rightPassword = await bcrypt.compare(password, user.password);
@@ -25,11 +24,14 @@ const loginUser = async (req, res, next) => {
     if (!rightPassword) {
       const error = new Error("Incorrect password");
       error.statusCode = 403;
-      error.customMessage = "Username or password is wrong";
+      error.customMessage = "Email or password is wrong";
 
       next(error);
     } else {
-      const token = jsonwebtoken.sign(userData, process.env.SECRET);
+      const token = jsonwebtoken.sign(
+        userData,
+        "33578A29D97B4E01A2863DF1B36C2235D12D03F829482F26F2A9A2BFCF9E1871"
+      );
 
       res.status(200).json({ token });
     }
