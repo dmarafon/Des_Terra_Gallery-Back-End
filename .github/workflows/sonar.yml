@@ -1,4 +1,4 @@
-name: Sonar Scanner
+name: Build
 on:
   push:
     branches:
@@ -18,7 +18,7 @@ jobs:
       - name: Testing coverage
         run: npm run test-coverage
         env:
-          SECRET: ${{ secrets.SECRET }}
+          JWT_SECRET_USER: ${( secrets.SECRET)}
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
