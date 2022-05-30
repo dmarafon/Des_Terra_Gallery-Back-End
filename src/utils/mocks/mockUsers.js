@@ -1,0 +1,38 @@
+const mockUsers = [
+  {
+    firstname: "TestFirstNameUser1",
+    surname: "TestsurnameUser1",
+    email: "testemail1@test.com",
+    password: "$2a$10$fQAwV8oQw5Sf.Iz4e4L4k.kI0aI18HYqCx96BSO/Vj/nImivclgqO",
+    webpage: "http://www.test1.com",
+    addres: "carrer de test, 1",
+    apartmentDoorStair: "1 - 1",
+    city: "testcity1",
+    phoneNumber: "+11111111111",
+    pictureProfile: "http://test1.jpg",
+    artist: true,
+    about: "about test user 1",
+    artworkAuthor: [],
+    artworkBought: [],
+    artworkRented: [],
+  },
+  {
+    firstname: "TestFirstNameUser2",
+    surname: "TestsurnameUser2",
+    email: "testemail2@test.com",
+    password: "$2a$10$HhfrdtBVKQOXKwm5a9a1Se0hEwd6y0gPkd5Aqgh1a7nsYIahWlN/a",
+    webpage: "http://www.test2.com",
+    addres: "carrer de test, 2",
+    apartmentDoorStair: "2 - 2",
+    city: "testcity2",
+    phoneNumber: "+22222222222",
+    pictureProfile: "http://test2.jpg",
+    artist: true,
+    about: "about test user 2",
+    artworkAuthor: [],
+    artworkBought: [],
+    artworkRented: [],
+  },
+];
+
+module.exports = mockUsers;
