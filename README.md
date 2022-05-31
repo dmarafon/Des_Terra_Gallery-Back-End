@@ -1,6 +1,7 @@
 # Listado de Endpoints
 
 <br>
+
 [POST] /users/login: endpoint abierto, para iniciar sesión
 
 <br>
