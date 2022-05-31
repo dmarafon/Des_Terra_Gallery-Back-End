@@ -18,9 +18,10 @@ jobs:
       - name: Testing coverage
         run: npm run test-coverage
         env:
-          JWT_SECRET_USER: ${( secrets.SECRET)}
+          SECRET: ${( secrets.SECRET)}
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SECRET: ${( secrets.SECRET)}
