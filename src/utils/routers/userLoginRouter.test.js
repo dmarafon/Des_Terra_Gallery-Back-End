@@ -61,7 +61,7 @@ describe("Given a POST '/login' endpoint", () => {
       password: "test2",
     };
 
-    test("Then it should thrown an error passing through Joi Validation with the message Bad Request", async () => {
+    test("Then it should thrown an error passing through Joi Validation with the message 'Bad Request'", async () => {
       const expectedErrorMessage = "Bad Request";
 
       const {

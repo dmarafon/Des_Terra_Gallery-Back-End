@@ -11,11 +11,10 @@ const loginUser = async (req, res, next) => {
     const error = new Error("Incorrect email");
     error.statusCode = 403;
     error.customMessage = "Email or password is wrong";
-
     next(error);
   } else {
     const userData = {
-      firstName: user.first_name,
+      firstName: user.firstname,
       email: user.email,
       id: user.id,
     };
