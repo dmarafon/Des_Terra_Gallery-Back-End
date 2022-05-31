@@ -14,7 +14,7 @@ jobs:
       - name: Install modules
         run: npm ci
 
-      - name: Testing
-        run: npm run test
+      - name: Testing coverage
+        run: npm run test-coverage
         env:
           SECRET: ${( secrets.SECRET)}
