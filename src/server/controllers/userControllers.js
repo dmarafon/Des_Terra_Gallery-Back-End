@@ -15,7 +15,7 @@ const loginUser = async (req, res, next) => {
     next(error);
   } else {
     const userData = {
-      firstName: user.firstName,
+      firstName: user.first_name,
       email: user.email,
       id: user.id,
     };
