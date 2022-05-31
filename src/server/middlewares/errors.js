@@ -1,6 +1,7 @@
 require("dotenv").config();
 const debug = require("debug")("desterra:server:middlewares:errors");
 const chalk = require("chalk");
+const { ValidationError } = require("express-validation");
 const customError = require("../../utils/customError");
 
 const notFoundError = (req, res, next) => {
@@ -15,7 +16,12 @@ const generalError = (error, req, res, next) => {
   const message = error.customMessage ?? "General Error";
   const statusCode = error.statusCode ?? 500;
 
-  res.status(statusCode).json({ error: true, message });
+  if (error instanceof ValidationError) {
+    res.status(400).json({ msg: "Bad Request" });
+    debug(chalk.bgRedBright(error.message));
+  } else {
+    res.status(statusCode).json({ message });
+  }
 };
 
 module.exports = {

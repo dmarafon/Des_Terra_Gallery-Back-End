@@ -54,4 +54,24 @@ describe("Given a POST '/login' endpoint", () => {
       expect(response.body.token).toBeDefined();
     });
   });
+
+  describe("When it receives a request with an email with less than 4 characters", () => {
+    const userRequestReceived = {
+      email: "tes",
+      password: "test2",
+    };
+
+    test("Then it should thrown an error passing through Joi Validation with the message Bad Request", async () => {
+      const expectedErrorMessage = "Bad Request";
+
+      const {
+        _body: { msg },
+      } = await request(app)
+        .post("/users/login")
+        .send(userRequestReceived)
+        .expect(400);
+
+      expect(msg).toBe(expectedErrorMessage);
+    });
+  });
 });
