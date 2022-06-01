@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const { loginUser } = require("./userControllers");
+
 const User = require("../../database/models/User");
 
 jest.mock("../../database/models/User", () => ({
