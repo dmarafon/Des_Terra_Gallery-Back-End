@@ -16,6 +16,9 @@ const usersRouter = express.Router();
 
 const upload = multer({
   dest: path.join("uploads", "images"),
+  limits: {
+    fileSize: 8000000,
+  },
 });
 
 usersRouter.post("/login", validate(credentialsLoginSchema), loginUser);
