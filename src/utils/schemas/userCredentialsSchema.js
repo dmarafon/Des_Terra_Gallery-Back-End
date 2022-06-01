@@ -44,8 +44,7 @@ const credentialsRegisterSchema = {
       .required(),
     apartmentdoorstair: Joi.string()
       .max(10)
-      .messages({ message: "The maximun length is 10 for your address" })
-      .required(),
+      .messages({ message: "The maximun length is 10 for your address" }),
     city: Joi.string()
       .max(40)
       .messages({ message: "The maximun length is 40 for your address" })
