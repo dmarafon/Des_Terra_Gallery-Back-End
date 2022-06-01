@@ -23,7 +23,6 @@ usersRouter.post("/login", validate(credentialsLoginSchema), loginUser);
 usersRouter.post(
   "/register",
   upload.single("image"),
-
   validate(credentialsRegisterSchema),
   registerUser
 );
