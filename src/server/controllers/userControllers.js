@@ -93,7 +93,11 @@ const registerUser = async (req, res, next) => {
       city,
       phonenumber,
       artist,
+      about: "",
       pictureprofile: file ? path.join("images", newImageName) : "",
+      artworkauthor: [],
+      artworkbought: [],
+      artworkrented: [],
     };
 
     await User.create(newUser);
