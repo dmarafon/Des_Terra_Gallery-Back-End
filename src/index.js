@@ -7,7 +7,6 @@ const initializeServer = require("./server/initializeServer");
 
 const port = process.env.PORT ?? 4000;
 const connectionString = process.env.MONGO_STRING;
-
 (async () => {
   try {
     await connectDB(connectionString);

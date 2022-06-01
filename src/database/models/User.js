@@ -21,44 +21,44 @@ const UserSchema = new Schema({
   webpage: {
     type: String,
   },
-  addres: {
+  address: {
     type: String,
     required: true,
   },
-  apartmentDoorStair: {
+  apartmentdoorstair: {
     type: String,
   },
   city: {
     type: String,
     required: true,
   },
-  phoneNumber: {
+  phonenumber: {
     type: String,
     required: true,
   },
-  pictureProfile: {
+  pictureprofile: {
     type: String,
   },
   artist: {
-    type: Boolean,
+    type: String,
     required: true,
   },
   about: {
     type: String,
   },
-  artworkAuthor: [
+  artworkauthor: [
     {
       type: Schema.Types.ObjectId,
       ref: "Artwork",
     },
   ],
-  artworkBought: [
+  artworkbought: [
     {
       type: Schema.Types.ObjectId,
       ref: "Artwork",
     },
   ],
-  artworkRented: [
+  artworkrented: [
     {
       type: Schema.Types.ObjectId,
       ref: "Artwork",

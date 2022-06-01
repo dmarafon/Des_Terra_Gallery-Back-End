@@ -37,24 +37,27 @@ const credentialsRegisterSchema = {
       .required(),
     webpage: Joi.string()
       .max(20)
-      .messages({ message: "The maximin length is 20 for a webpage" }),
+      .messages({ message: "The maximun length is 20 for a webpage" }),
     address: Joi.string()
       .max(40)
-      .messages({ message: "The maximin length is 40 for your address" })
+      .messages({ message: "The maximun length is 40 for your address" })
       .required(),
     apartmentdoorstair: Joi.string()
       .max(10)
-      .messages({ message: "The maximin length is 10 for your address" })
+      .messages({ message: "The maximun length is 10 for your address" })
       .required(),
     city: Joi.string()
       .max(40)
-      .messages({ message: "The maximin length is 40 for your address" })
+      .messages({ message: "The maximun length is 40 for your address" })
       .required(),
     phonenumber: Joi.string()
-      .max(10)
-      .messages({ message: "The maximin length is 10 for your address" })
+      .max(20)
+      .messages({ message: "The maximun length is 10 for your address" })
       .required(),
-    artist: Joi.boolean().required(),
+    artist: Joi.string()
+      .max(10)
+      .messages({ message: "The maximun length is 5 for this value" })
+      .required(),
     pictureprofile: Joi.string().allow(null, ""),
   }),
 };
