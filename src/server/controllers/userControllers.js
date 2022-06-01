@@ -56,7 +56,7 @@ const registerUser = async (req, res, next) => {
 
     const user = await User.findOne({ email });
 
-    if (email) {
+    if (user) {
       const error = customError(
         409,
         "Conflict",
