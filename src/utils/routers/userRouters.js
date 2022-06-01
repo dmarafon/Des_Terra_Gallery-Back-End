@@ -7,10 +7,7 @@ const {
   loginUser,
   registerUser,
 } = require("../../server/controllers/userControllers");
-const {
-  credentialsLoginSchema,
-  credentialsRegisterSchema,
-} = require("../schemas/userCredentialsSchema");
+const { credentialsLoginSchema } = require("../schemas/userCredentialsSchema");
 
 const usersRouter = express.Router();
 
@@ -23,11 +20,6 @@ const upload = multer({
 
 usersRouter.post("/login", validate(credentialsLoginSchema), loginUser);
 
-usersRouter.post(
-  "/register",
-  upload.single("image"),
-  validate(credentialsRegisterSchema),
-  registerUser
-);
+usersRouter.post("/register", upload.single("image"), registerUser);
 
 module.exports = usersRouter;

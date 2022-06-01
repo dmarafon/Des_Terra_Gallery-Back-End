@@ -55,7 +55,6 @@ const registerUser = async (req, res, next) => {
     const { file } = req;
 
     const user = await User.findOne({ email });
-
     if (user) {
       const error = customError(
         409,
