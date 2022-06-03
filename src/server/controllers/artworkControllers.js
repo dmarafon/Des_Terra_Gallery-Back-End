@@ -3,7 +3,6 @@ const customError = require("../../utils/customError");
 
 const getPaginatedArtworks = async (req, res, next) => {
   const { page = 1, limit = 10 } = req.query;
-  // debugger;
   try {
     const artworks = await Artwork.find()
       .limit(limit * 1)
