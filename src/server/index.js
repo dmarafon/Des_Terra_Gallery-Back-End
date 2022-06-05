@@ -1,5 +1,4 @@
 const express = require("express");
-const { default: helmet } = require("helmet");
 const morgan = require("morgan");
 const cors = require("cors");
 const { notFoundError, generalError } = require("./middlewares/errors");
@@ -20,11 +19,10 @@ const corsOptions = {
 };
 
 const app = express();
-
+app.disable("x-powered-by");
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(helmet());
 
 app.use("/users", usersRouter);
 app.use("/artworks", artworksRouter);

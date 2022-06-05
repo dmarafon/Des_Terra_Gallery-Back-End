@@ -58,8 +58,9 @@ const registerUser = async (req, res, next) => {
     if (user) {
       const error = customError(
         409,
-        "Conflict",
-        "User already present in the database"
+
+        "User already present in the database",
+        "Conflict"
       );
       next(error);
       return;
@@ -102,7 +103,7 @@ const registerUser = async (req, res, next) => {
     await User.create(newUser);
     res.status(201).json({ new_user: { email: newUser.email } });
   } catch {
-    const error = customError(400, "Bad request", "Wrong user data");
+    const error = customError(400, "Wrong user data", "Bad Request");
     next(error);
   }
 };

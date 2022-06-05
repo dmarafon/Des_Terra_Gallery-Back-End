@@ -4,6 +4,7 @@ const { getPaginatedArtworks } = require("./artworkControllers");
 jest.mock("../../database/models/Artwork", () => ({
   find: jest.fn().mockReturnThis(),
   limit: jest.fn().mockReturnThis(),
+  populate: jest.fn().mockReturnThis(),
   skip: jest.fn(),
   countDocuments: jest.fn(),
 }));

@@ -44,7 +44,7 @@ describe("Given a registerUser function", () => {
 
   describe("When it is called with a user that is already present in the database", () => {
     test("Then it should call the 'next' received function with an error message stating 'User already present in the database'", async () => {
-      const expectedErrorMessage = "User already present in the database";
+      const expectedErrorMessage = "Conflict";
 
       User.findOne = jest.fn().mockResolvedValue(true);
 
