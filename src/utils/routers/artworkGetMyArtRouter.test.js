@@ -23,8 +23,8 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-  await User.deleteMany({});
   await Artwork.deleteMany({});
+  await User.deleteMany({});
 });
 
 afterAll(async () => {
