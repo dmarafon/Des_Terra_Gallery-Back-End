@@ -37,8 +37,6 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
-  await Artwork.deleteMany({});
-  await User.deleteMany({});
   await mongoServer.stop();
   await mongoose.connection.close();
 });
