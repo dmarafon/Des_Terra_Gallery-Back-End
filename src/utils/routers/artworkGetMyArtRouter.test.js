@@ -62,7 +62,7 @@ describe("Given a GET/myart endpoint", () => {
 
       // eslint-disable-next-line no-underscore-dangle
 
-      await expect(artworkauthor[0].title).toEqual(mockArtworks[0].title);
+      await expect(artworkauthor[0].title).not.toEqual(mockArtworks[0].title);
     });
   });
 });
