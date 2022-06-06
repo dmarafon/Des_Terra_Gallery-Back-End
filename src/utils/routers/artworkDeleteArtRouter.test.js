@@ -21,7 +21,7 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-  await User.deleteMany({});
+  await Artwork.deleteMany({});
 });
 
 afterAll(async () => {

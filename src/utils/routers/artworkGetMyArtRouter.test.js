@@ -19,9 +19,6 @@ beforeAll(async () => {
 beforeEach(async () => {
   await Artwork.create(mockArtworks[0]);
   await Artwork.create(mockArtworks[1]);
-});
-
-beforeEach(async () => {
   await User.create(mockUsers[0]);
 });
 
