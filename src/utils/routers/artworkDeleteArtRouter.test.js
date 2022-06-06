@@ -9,24 +9,14 @@ const Artwork = require("../../database/models/Artwork");
 
 let mongoServer;
 
-beforeAll(async () => {
-  mongoServer = await MongoMemoryServer.create();
-
-  await connectDB(mongoServer.getUri());
-});
-
-beforeEach(async () => {
-  await Artwork.create(mockArtworks[0]);
-  await Artwork.create(mockArtworks[1]);
-});
-
-afterAll(async () => {
-  await mongoServer.stop();
-  await mongoose.connection.close();
-});
-
 describe("Given a DELETE/myart/:artid endpoint", () => {
-  describe("When it receives a request with a artwork id", () => {
+  describe("When it receives a request with a artwork id", async () => {
+    mongoServer = await MongoMemoryServer.create();
+
+    await Artwork.create(mockArtworks[0]);
+    await Artwork.create(mockArtworks[1]);
+
+    await connectDB(mongoServer.getUri());
     test("Then it should respond with a status 200 and a deleted record", async () => {
       const artwork = await Artwork.find({ title: "sleep" });
       const token =
@@ -43,6 +33,9 @@ describe("Given a DELETE/myart/:artid endpoint", () => {
         .expect(200);
 
       await expect(deleted_artwork).toHaveProperty("title", "sleep");
+
+      await mongoServer.stop();
+      await mongoose.connection.close();
     });
   });
 });
