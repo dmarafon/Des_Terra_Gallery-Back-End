@@ -46,7 +46,7 @@ describe("Given a DELETE/myart/:artid endpoint", () => {
         .set("Authorization", `Bearer ${token}`)
         .expect(200);
 
-      expect(deleted_artwork).toHaveProperty("title", "sleep");
+      await expect(deleted_artwork).toHaveProperty("title", "sleep");
     });
   });
 });
