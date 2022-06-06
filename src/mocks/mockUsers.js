@@ -1,5 +1,6 @@
 const mockUsers = [
   {
+    id: "12345",
     firstname: "marcos",
     surname: "santos",
     email: "marcos@gmail.com",
@@ -16,6 +17,7 @@ const mockUsers = [
     phonenumber: "+34444232429",
   },
   {
+    id: "678910",
     firstname: "Lila",
     surname: "Test",
     email: "usertest@supertest.com",
