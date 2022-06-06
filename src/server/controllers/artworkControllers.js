@@ -33,7 +33,7 @@ const getPaginatedArtworks = async (req, res, next) => {
 
 const getPaginatedMyArtworks = async (req, res, next) => {
   const { page = 1, limit = 10 } = req.query;
-  const { userId } = req.body;
+  const { userId } = req;
 
   try {
     const { artworkauthor } = await User.findById(userId)
