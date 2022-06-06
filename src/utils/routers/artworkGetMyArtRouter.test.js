@@ -20,6 +20,20 @@ beforeEach(async () => {
   await Artwork.create(mockArtworks[0]);
   await Artwork.create(mockArtworks[1]);
   await User.create(mockUsers[0]);
+
+  const artwork = await Artwork.find({ title: "sleep" });
+
+  await User.updateOne(
+    { firstname: "marcos" },
+    // eslint-disable-next-line no-underscore-dangle
+    { $push: { artworkauthor: artwork[0]._id } }
+  );
+
+  await User.updateOne(
+    { firstname: "marcos" },
+    // eslint-disable-next-line no-underscore-dangle
+    { $push: { artworkauthor: artwork[0]._id } }
+  );
 });
 
 afterEach(async () => {
@@ -37,19 +51,9 @@ describe("Given a GET/myart endpoint", () => {
     test("Then it should respond with a status 200 and a the user collection", async () => {
       const token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJqZXN1cyIsImVtYWlsIjoiamVzdXNwZXJlYUBnbWFpbC5jb20iLCJpZCI6IjYyOTUwMjBhZDE1MDQ0NDZkMGMwNGNlOCIsImlhdCI6MTY1NDQ4MTgwOX0.lztbEeyEWS0bTem9gu1RnfQ8yrWpYQa8hXItV-Rx7cQ";
-
-      const artwork = await Artwork.find({ title: "sleep" });
-
-      await User.updateOne(
-        { firstname: "marcos" },
-        // eslint-disable-next-line no-underscore-dangle
-        { $push: { artworkauthor: artwork[0]._id } }
-      );
-
       const user = await User.find({ firstname: "marcos" });
       // eslint-disable-next-line no-underscore-dangle
       const userId = await user[0]._id.valueOf().toString();
-
       const {
         body: { artworkauthor },
       } = await request(app)
