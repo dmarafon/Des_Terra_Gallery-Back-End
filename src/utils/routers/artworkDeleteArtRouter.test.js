@@ -9,15 +9,25 @@ const Artwork = require("../../database/models/Artwork");
 
 let mongoServer;
 
+beforeAll(async () => {
+  mongoServer = await MongoMemoryServer.create();
+
+  await connectDB(mongoServer.getUri());
+});
+
+beforeEach(async () => {
+  await Artwork.create(mockArtworks[0]);
+  await Artwork.create(mockArtworks[1]);
+});
+
+afterAll(async () => {
+  await mongoServer.stop();
+  await mongoose.connection.close();
+});
+
 describe("Given a DELETE/myart/:artid endpoint", () => {
   describe("When it receives a request with a artwork id", () => {
     test("Then it should respond with a status 200 and a deleted record", async () => {
-      mongoServer = await MongoMemoryServer.create();
-
-      await Artwork.create(mockArtworks[0]);
-      await Artwork.create(mockArtworks[1]);
-
-      await connectDB(mongoServer.getUri());
       const artwork = await Artwork.find({ title: "sleep" });
       const token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJqZXN1cyIsImVtYWlsIjoiamVzdXNwZXJlYUBnbWFpbC5jb20iLCJpZCI6IjYyOTUwMjBhZDE1MDQ0NDZkMGMwNGNlOCIsImlhdCI6MTY1NDQ4MTgwOX0.lztbEeyEWS0bTem9gu1RnfQ8yrWpYQa8hXItV-Rx7cQ";
@@ -33,9 +43,6 @@ describe("Given a DELETE/myart/:artid endpoint", () => {
         .expect(200);
 
       await expect(deleted_artwork).toHaveProperty("title", "sleep");
-
-      await mongoServer.stop();
-      await mongoose.connection.close();
     });
   });
 });
