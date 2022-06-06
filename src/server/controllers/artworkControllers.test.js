@@ -1,5 +1,7 @@
 const Artwork = require("../../database/models/Artwork");
-const { getPaginatedArtworks } = require("./artworkControllers");
+const User = require("../../database/models/User");
+const mockArtworks = require("../../utils/mocks/mockArtworks");
+const { getPaginatedArtworks, deleteArtwork } = require("./artworkControllers");
 
 jest.mock("../../database/models/Artwork", () => ({
   find: jest.fn().mockReturnThis(),
@@ -64,6 +66,56 @@ describe("Given the getPaginatedArtworks controller", () => {
 
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
       expect(res.json).toHaveBeenCalledWith(expectedResponse);
+    });
+  });
+});
+
+describe("Given a deleteArtwork controller", () => {
+  const expectedStatus = 200;
+
+  const req = {
+    body: { userId: 3 },
+    params: {
+      artworkId: 3,
+    },
+  };
+  const res = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  };
+
+  describe("When invoked with a given artwork id corresponding to an existing art in the database in the body of the request", () => {
+    Artwork.findByIdAndDelete = jest.fn().mockResolvedValue(mockArtworks[0]);
+    User.findByIdAndUpdate = jest.fn().mockResolvedValue(true);
+
+    test("Then it should call the response's status method with 200", async () => {
+      await deleteArtwork(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+    });
+
+    test("Then it should call the response's json method with the deleted record", async () => {
+      const expectedJsonResponse = {
+        deleted_artwork: mockArtworks[0],
+      };
+
+      await deleteArtwork(req, res);
+
+      expect(res.json).toHaveBeenCalledWith(expectedJsonResponse);
+    });
+  });
+
+  describe("When invoked with and an error occurs", () => {
+    test("Then it should call the next received function with ", async () => {
+      const expectedErrorMessage = "Artwork id not found";
+
+      const expectedError = new Error(expectedErrorMessage);
+
+      Artwork.findByIdAndDelete = jest.fn().mockResolvedValue(false);
+
+      await deleteArtwork(req, res, next);
+
+      expect(next).not.toHaveBeenCalledWith(expectedError);
     });
   });
 });

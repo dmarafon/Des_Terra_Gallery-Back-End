@@ -12,7 +12,7 @@ const mockUsers = [
     pictureprofile: "http://test1.jpg",
     artist: "true",
     about: "about test user 1",
-    artworkauthor: ["629d1dce77d93a10ce003a2b"],
+    artworkauthor: [],
     artworkbought: [],
     artworkrented: [],
   },
