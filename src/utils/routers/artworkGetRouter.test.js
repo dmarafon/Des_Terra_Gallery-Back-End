@@ -29,28 +29,6 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-describe("Given a DELETE/myart/:artid endpoint", () => {
-  describe("When it receives a request with a artwork id", () => {
-    test("Then it should respond with a status 200 and a deleted record", async () => {
-      const artwork = await Artwork.find({ title: "sleep" });
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJqZXN1cyIsImVtYWlsIjoiamVzdXNwZXJlYUBnbWFpbC5jb20iLCJpZCI6IjYyOTUwMjBhZDE1MDQ0NDZkMGMwNGNlOCIsImlhdCI6MTY1NDQ4MTgwOX0.lztbEeyEWS0bTem9gu1RnfQ8yrWpYQa8hXItV-Rx7cQ";
-
-      User.findByIdAndUpdate = jest.fn().mockResolvedValue(true);
-
-      const {
-        // eslint-disable-next-line camelcase
-        body: { deleted_artwork },
-      } = await request(app)
-        .delete(`/artworks/${artwork[0].id}`)
-        .set("Authorization", `Bearer ${token}`)
-        .expect(200);
-
-      await expect(deleted_artwork).toHaveProperty("title", "sleep");
-    });
-  });
-});
-
 describe("Given a GET '/all' endpoint", () => {
   describe("When it receives a request", () => {
     test("Then it should specify json as the content type in the http header", async () => {

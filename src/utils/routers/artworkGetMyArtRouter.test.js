@@ -36,33 +36,20 @@ afterAll(async () => {
 });
 
 describe("Given a GET/myart endpoint", () => {
-  describe("When it receives a request with a valid token", () => {
+  describe("When it receives a request with a valid token but without the userId in the body", () => {
     test("Then it should respond with a status 200 and a the user collection", async () => {
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJqZXN1cyIsImVtYWlsIjoiamVzdXNwZXJlYUBnbWFpbC5jb20iLCJpZCI6IjYyOTUwMjBhZDE1MDQ0NDZkMGMwNGNlOCIsImlhdCI6MTY1NDQ4MTgwOX0.lztbEeyEWS0bTem9gu1RnfQ8yrWpYQa8hXItV-Rx7cQ";
-
-      const artwork = await Artwork.find({ title: "sleep" });
-
-      await User.updateOne(
-        { firstname: "marcos" },
-        // eslint-disable-next-line no-underscore-dangle
-        { $push: { artworkauthor: artwork[0]._id } }
-      );
-
-      const user = await User.find({ firstname: "marcos" });
-      // eslint-disable-next-line no-underscore-dangle
-      const userId = await user[0]._id.valueOf().toString();
+      const expectedErrorMessage = "Bad request";
 
       const {
-        body: { artworkauthor },
+        body: { message },
       } = await request(app)
         .get("/artworks/myart")
-        .set("Authorization", `Bearer ${token}`)
-        .send({ userId });
+        .set(
+          "Authorization",
+          `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJqZXN1cyIsImVtYWlsIjoiamVzdXNwZXJlYUBnbWFpbC5jb20iLCJpZCI6IjYyOTUwMjBhZDE1MDQ0NDZkMGMwNGNlOCIsImlhdCI6MTY1NDQ4MTgwOX0.lztbEeyEWS0bTem9gu1RnfQ8yrWpYQa8hXItV-Rx7cQ`
+        );
 
-      // eslint-disable-next-line no-underscore-dangle
-
-      await expect(artworkauthor[0].title).not.toEqual(mockArtworks[0].title);
+      expect(message).toBe(expectedErrorMessage);
     });
   });
 });
