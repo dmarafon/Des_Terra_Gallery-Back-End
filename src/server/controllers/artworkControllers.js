@@ -31,4 +31,34 @@ const getPaginatedArtworks = async (req, res, next) => {
   }
 };
 
-module.exports = { getPaginatedArtworks };
+const getPaginatedMyArtworks = async (req, res, next) => {
+  const { page = 1, limit = 10 } = req.query;
+  const { userId } = req.body;
+
+  try {
+    const { artworkauthor } = await User.findById(userId)
+      .populate({
+        path: "artworkauthor",
+        model: Artwork,
+      })
+      .limit(limit * 1)
+      .skip((page - 1) * 1);
+
+    const count = await User.countDocuments();
+
+    res.status(200).json({
+      artworkauthor,
+      totalPage: Math.ceil(count / limit),
+      currentPage: page,
+    });
+  } catch {
+    const error = customError(
+      400,
+      "Bad request",
+      "Wrong parameters to get Data"
+    );
+    next(error);
+  }
+};
+
+module.exports = { getPaginatedArtworks, getPaginatedMyArtworks };
