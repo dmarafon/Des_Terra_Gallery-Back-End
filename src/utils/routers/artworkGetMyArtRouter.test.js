@@ -46,9 +46,11 @@ describe("Given a GET/myart endpoint", () => {
     test("Then it should respond with a status 200 and a the user collection", async () => {
       const token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJqZXN1cyIsImVtYWlsIjoiamVzdXNwZXJlYUBnbWFpbC5jb20iLCJpZCI6IjYyOTUwMjBhZDE1MDQ0NDZkMGMwNGNlOCIsImlhdCI6MTY1NDQ4MTgwOX0.lztbEeyEWS0bTem9gu1RnfQ8yrWpYQa8hXItV-Rx7cQ";
-      const user = await User.find({ firstname: "marcos" });
+            // eslint-disable-next-line no-underscore-dangle
+
+        const {[_id: _id]} = await User.find({ firstname: "marcos" });
       // eslint-disable-next-line no-underscore-dangle
-      const userId = await user[0]._id.valueOf().toString();
+      const userId = await _id.valueOf().toString();
       const {
         body: { artworkauthor },
       } = await request(app)

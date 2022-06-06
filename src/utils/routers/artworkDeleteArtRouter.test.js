@@ -20,10 +20,6 @@ beforeEach(async () => {
   await Artwork.create(mockArtworks[1]);
 });
 
-afterEach(async () => {
-  await Artwork.deleteMany({});
-});
-
 afterAll(async () => {
   await mongoServer.stop();
   await mongoose.connection.close();
