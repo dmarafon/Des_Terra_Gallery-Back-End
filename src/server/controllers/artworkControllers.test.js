@@ -17,7 +17,7 @@ describe("Given the getPaginatedArtworks controller", () => {
     json: jest.fn().mockReturnThis(),
   };
 
-  describe("When invoked with a bad request", () => {
+  describe("When invoked", () => {
     Artwork.skip.mockImplementation(() => [
       {
         id: "6294aa4bc78dbede9429006e",
@@ -35,7 +35,7 @@ describe("Given the getPaginatedArtworks controller", () => {
         monthlyrateprice: "30",
       },
     ]);
-    test("Then a response with status 400, and a response with the itens requested", async () => {
+    test("Then a response with status 200, and a response with the itens requested", async () => {
       const expectedStatus = 200;
 
       const expectedResponse = {

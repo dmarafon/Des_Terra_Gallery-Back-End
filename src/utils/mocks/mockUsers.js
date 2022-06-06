@@ -12,9 +12,9 @@ const mockUsers = [
     pictureprofile: "http://test1.jpg",
     artist: "true",
     about: "about test user 1",
-    artworkAuthor: [],
-    artworkBought: [],
-    artworkRented: [],
+    artworkauthor: ["629d1dce77d93a10ce003a2b"],
+    artworkbought: [],
+    artworkrented: [],
   },
   {
     firstname: "TestFirstNameUser2",
@@ -29,9 +29,9 @@ const mockUsers = [
     pictureprofile: "http://test2.jpg",
     artist: "true",
     about: "about test user 2",
-    artworkAuthor: [],
-    artworkBought: [],
-    artworkRented: [],
+    artworkauthor: [],
+    artworkbought: [],
+    artworkrented: [],
   },
 ];
 
