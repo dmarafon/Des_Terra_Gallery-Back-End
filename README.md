@@ -18,11 +18,11 @@
 
 <br>
 
-[GET] /artworks: lista de todas las obras de arte de la base de datos
+[GET] /artworks/all: lista de todas las obras de arte de la base de datos
 
 <br>
 
-[POST] /artworks: para crear una nueva obra de arte (sólo usuários Artistas)
+[POST] /artworks/all: para crear una nueva obra de arte (sólo usuários Artistas)
 
 <br>
 
