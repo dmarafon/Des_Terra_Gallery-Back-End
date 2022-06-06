@@ -12,7 +12,6 @@ const ArtworkSchema = new Schema({
   height: {
     type: String,
     required: true,
-    unique: true,
   },
   width: {
     type: String,

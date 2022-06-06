@@ -61,4 +61,31 @@ const getPaginatedMyArtworks = async (req, res, next) => {
   }
 };
 
-module.exports = { getPaginatedArtworks, getPaginatedMyArtworks };
+const deleteArtwork = async (req, res, next) => {
+  const { userId } = req.body;
+  const { artworkId } = req.params;
+
+  const artwork = await Artwork.findByIdAndDelete(artworkId);
+  if (artwork) {
+    const updatedCollection = await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: { artworkauthor: artworkId },
+      },
+      { new: true }
+    );
+
+    if (updatedCollection) {
+      res.status(200).json({ deleted_artwork: artwork });
+    }
+  } else {
+    const error = customError(404, "Bad request", "Artwork Not Found");
+    next(error);
+  }
+};
+
+module.exports = {
+  getPaginatedArtworks,
+  getPaginatedMyArtworks,
+  deleteArtwork,
+};
