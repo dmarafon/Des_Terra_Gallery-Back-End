@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const connectDB = require("../../database");
 const app = require("../../server");
 const User = require("../../database/models/User");
-const mockUsers = require("../mocks/mockUsers");
 const mockArtworks = require("../mocks/mockArtworks");
 const Artwork = require("../../database/models/Artwork");
 
