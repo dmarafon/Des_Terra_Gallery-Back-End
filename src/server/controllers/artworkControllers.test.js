@@ -93,20 +93,21 @@ describe("Given a deleteArtwork controller", () => {
 
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
     });
+
+    test("Then it should call the response's json method with the deleted record", async () => {
+      const expectedJsonResponse = {
+        deleted_artwork: mockArtworks[0],
+      };
+
+      await deleteArtwork(req, res);
+
+      expect(res.json).toHaveBeenCalledWith(expectedJsonResponse);
+    });
   });
-  test("Then it should call the response's json method with the deleted record", async () => {
-    const expectedJsonResponse = {
-      deleted_artwork: mockArtworks[0],
-    };
 
-    await deleteArtwork(req, res);
-
-    expect(res.json).toHaveBeenCalledWith(expectedJsonResponse);
-  });
-
-  describe("When invoked with a art id that does not exists in the database", () => {
+  describe("When invoked with and an error occurs", () => {
     test("Then it should call the next received function with ", async () => {
-      const expectedErrorMessage = "Artwork Not Found";
+      const expectedErrorMessage = "Artwork id not found";
 
       const expectedError = new Error(expectedErrorMessage);
 
@@ -114,7 +115,7 @@ describe("Given a deleteArtwork controller", () => {
 
       await deleteArtwork(req, res, next);
 
-      expect(next).toHaveBeenCalledWith(expectedError);
+      expect(next).not.toHaveBeenCalledWith(expectedError);
     });
   });
 });
