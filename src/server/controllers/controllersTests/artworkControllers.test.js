@@ -1,14 +1,14 @@
-const Artwork = require("../../database/models/Artwork");
-const User = require("../../database/models/User");
-const mockArtworks = require("../../utils/mocks/mockArtworks");
+const Artwork = require("../../../database/models/Artwork");
+const User = require("../../../database/models/User");
+const mockArtworks = require("../../../utils/mocks/mockArtworks");
 const {
   getPaginatedArtworks,
   deleteArtwork,
   createArtwork,
-} = require("./artworkControllers");
+} = require("../artworkControllers");
 
 const next = jest.fn();
-jest.mock("../../database/models/Artwork", () => ({
+jest.mock("../../../database/models/Artwork", () => ({
   find: jest.fn().mockReturnThis(),
   limit: jest.fn().mockReturnThis(),
   populate: jest.fn().mockReturnThis(),
@@ -124,7 +124,7 @@ describe("Given a deleteArtwork controller", () => {
 });
 
 describe("Given the creatArtwork controller", () => {
-  jest.mock("../../database/models/Artwork", () => ({
+  jest.mock("../../../database/models/Artwork", () => ({
     find: jest.fn().mockReturnThis(),
   }));
 

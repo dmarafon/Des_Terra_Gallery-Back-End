@@ -1,7 +1,7 @@
-const User = require("../../database/models/User");
-const { getPaginatedMyArtworks } = require("./artworkControllers");
+const User = require("../../../database/models/User");
+const { getPaginatedMyArtworks } = require("../artworkControllers");
 
-jest.mock("../../database/models/User", () => ({
+jest.mock("../../../database/models/User", () => ({
   findby: jest.fn().mockReturnThis(),
   limit: jest.fn().mockReturnThis(),
   skip: jest.fn(),
