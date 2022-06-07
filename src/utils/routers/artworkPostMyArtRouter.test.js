@@ -36,7 +36,7 @@ afterAll(async () => {
 });
 
 describe("Given a POST /allart/ endpoint", () => {
-  describe("When it receives a request with a valid token and note to create", () => {
+  describe("When it receives a request with a valid token and a request to create an Artwork", () => {
     test("Then it should respond with a 201 status and the new note created", async () => {
       const artToBeCreated = {
         description:
