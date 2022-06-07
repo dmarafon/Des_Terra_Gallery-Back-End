@@ -1,9 +1,12 @@
-const Artwork = require("../../database/models/Artwork");
-const User = require("../../database/models/User");
-const mockArtworks = require("../../utils/mocks/mockArtworks");
-const { getPaginatedArtworks, deleteArtwork } = require("./artworkControllers");
+const Artwork = require("../../../database/models/Artwork");
+const User = require("../../../database/models/User");
+const mockArtworks = require("../../../utils/mocks/mockArtworks");
+const {
+  getPaginatedArtworks,
+  deleteArtwork,
+} = require("../artworkControllers");
 
-jest.mock("../../database/models/Artwork", () => ({
+jest.mock("../../../database/models/Artwork", () => ({
   find: jest.fn().mockReturnThis(),
   limit: jest.fn().mockReturnThis(),
   skip: jest.fn(),

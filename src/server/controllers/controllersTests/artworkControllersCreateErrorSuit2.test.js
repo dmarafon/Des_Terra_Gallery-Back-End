@@ -1,9 +1,9 @@
 const path = require("path");
-const Artwork = require("../../database/models/Artwork");
-const { createArtwork } = require("./artworkControllers");
+const Artwork = require("../../../database/models/Artwork");
+const { createArtwork } = require("../artworkControllers");
 
 describe("Given the creatArtwork controller", () => {
-  jest.mock("../../database/models/Artwork", () => ({
+  jest.mock("../../../database/models/Artwork", () => ({
     find: jest.fn().mockReturnThis(),
   }));
 

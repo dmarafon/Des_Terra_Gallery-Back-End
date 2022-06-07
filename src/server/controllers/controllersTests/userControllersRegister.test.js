@@ -1,9 +1,9 @@
 const bcrypt = require("bcrypt");
 const path = require("path");
-const { registerUser } = require("./userControllers");
+const { registerUser } = require("../userControllers");
 
-const User = require("../../database/models/User");
-const mockUsers = require("../../mocks/mockUsers");
+const User = require("../../../database/models/User");
+const mockUsers = require("../../../mocks/mockUsers");
 
 jest.mock("fs", () => ({
   ...jest.requireActual("fs"),
