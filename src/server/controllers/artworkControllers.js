@@ -1,3 +1,6 @@
+const path = require("path");
+const fs = require("fs");
+const mongoose = require("mongoose");
 const Artwork = require("../../database/models/Artwork");
 const User = require("../../database/models/User");
 const customError = require("../../utils/customError");
@@ -84,8 +87,51 @@ const deleteArtwork = async (req, res, next) => {
   }
 };
 
+const createArtwork = async (req, res, next) => {
+  try {
+    const { userId } = req;
+    const artwork = req.body;
+    const { file } = req;
+    const newArtImageName = file ? `${Date.now()}${file.originalname}` : "";
+
+    if (file) {
+      fs.rename(
+        path.join("uploads", "artimages", file.filename),
+        path.join("uploads", "artimages", newArtImageName),
+        async (error) => {
+          if (error) {
+            next(error);
+          }
+        }
+      );
+    }
+
+    const newArtwork = {
+      ...artwork,
+      author: [mongoose.Types.ObjectId(userId)],
+      image: file ? path.join("art", newArtImageName) : "",
+    };
+
+    const addArtwork = await Artwork.create(newArtwork);
+
+    const updateUser = await User.updateOne(
+      { _id: userId },
+      // eslint-disable-next-line no-underscore-dangle
+      { $push: { artworkauthor: mongoose.Types.ObjectId(addArtwork._id) } }
+    );
+
+    if (updateUser) {
+      res.status(201).json({ new_artwork: addArtwork });
+    }
+  } catch {
+    const error = customError(404, "Bad request", "Artwork Not Found");
+    next(error);
+  }
+};
+
 module.exports = {
   getPaginatedArtworks,
   getPaginatedMyArtworks,
   deleteArtwork,
+  createArtwork,
 };
