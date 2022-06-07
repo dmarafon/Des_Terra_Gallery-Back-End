@@ -62,7 +62,7 @@ const getPaginatedMyArtworks = async (req, res, next) => {
 };
 
 const deleteArtwork = async (req, res, next) => {
-  const { userId } = req.body;
+  const { userId } = req;
   const { artworkId } = req.params;
 
   const artwork = await Artwork.findByIdAndDelete(artworkId);
