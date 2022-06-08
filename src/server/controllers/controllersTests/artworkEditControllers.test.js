@@ -6,11 +6,6 @@ describe("Given the editArtwork controller", () => {
     find: jest.fn().mockReturnThis(),
   }));
 
-  jest.mock("fs", () => ({
-    ...jest.requireActual("fs"),
-    rename: jest.fn().mockReturnValue("1234image.jpg"),
-  }));
-
   const next = jest.fn();
 
   describe("When invoked", () => {

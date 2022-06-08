@@ -10,6 +10,7 @@ const {
   editArtwork,
 } = require("../../server/controllers/artworkControllers");
 const auth = require("../../server/middlewares/auth");
+const imageConverter = require("../../server/middlewares/imageConverter");
 
 const artworksRouter = express.Router();
 
@@ -26,7 +27,13 @@ artworksRouter.get("/myart/:userId", auth, getPaginatedMyArtworks);
 
 artworksRouter.delete("/:artworkId", auth, deleteArtwork);
 
-artworksRouter.post("/addart", auth, upload.single("artimages"), createArtwork);
+artworksRouter.post(
+  "/addart",
+  auth,
+  upload.single("artimages"),
+  imageConverter,
+  createArtwork
+);
 
 artworksRouter.put(
   "/editart/:artworkId",

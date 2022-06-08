@@ -91,26 +91,13 @@ const createArtwork = async (req, res, next) => {
   try {
     const { userId } = req;
     const artwork = req.body;
-    const { file } = req;
-
-    const newArtImageName = file ? `${Date.now()}${file.originalname}` : "";
-
-    if (file) {
-      fs.rename(
-        path.join("uploads", "artimages", file.filename),
-        path.join("uploads", "artimages", newArtImageName),
-        async (error) => {
-          if (error) {
-            next(error);
-          }
-        }
-      );
-    }
+    const { image, firebaseUrl } = req;
 
     const newArtwork = {
       ...artwork,
       author: [mongoose.Types.ObjectId(userId)],
-      image: file ? path.join("art", newArtImageName) : "",
+      image,
+      imagebackup: firebaseUrl,
     };
     const addArtwork = await Artwork.create(newArtwork);
 

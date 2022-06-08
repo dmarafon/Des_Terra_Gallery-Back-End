@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 const Artwork = require("../../../database/models/Artwork");
 const { createArtwork } = require("../artworkControllers");
 
@@ -94,6 +95,12 @@ describe("Given the creatArtwork controller", () => {
             width: "40 inches",
           },
         };
+
+        jest
+          .spyOn(fs, "rename")
+          .mockImplementation((oldpath, newpath, callback) => {
+            callback("error");
+          });
 
         const res = {
           status: jest.fn().mockReturnThis(),

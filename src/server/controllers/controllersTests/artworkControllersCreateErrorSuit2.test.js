@@ -7,11 +7,6 @@ describe("Given the creatArtwork controller", () => {
     find: jest.fn().mockReturnThis(),
   }));
 
-  jest.mock("fs", () => ({
-    ...jest.requireActual("fs"),
-    rename: jest.fn().mockReturnValue("1234image.jpg"),
-  }));
-
   const next = jest.fn();
 
   describe("When invoked but the user to be updated with the object created is not found", () => {
@@ -42,10 +37,6 @@ describe("Given the creatArtwork controller", () => {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
-
-      jest.spyOn(path, "join").mockImplementation(() => {
-        throw new Error();
-      });
 
       Artwork.create = jest.fn().mockResolvedValue(false);
 

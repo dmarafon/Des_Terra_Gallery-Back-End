@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const path = require("path");
 const { registerUser } = require("../userControllers");
 
 const User = require("../../../database/models/User");
@@ -25,8 +24,6 @@ describe("Given a registerUser function", () => {
     status: jest.fn().mockReturnThis(),
     json: jest.fn(),
   };
-
-  jest.spyOn(path, "join").mockResolvedValue("image");
 
   describe("When invoked with new users credentials in its body", () => {
     test("Then it should call the response's status method with 201", async () => {
@@ -66,3 +63,31 @@ describe("Given a registerUser function", () => {
     });
   });
 });
+
+
+  describe("When it is called and the User.create method fails", () => {
+    test("Then it should call the 'next' received function", async () => {
+
+
+      User.findOne = jest.fn().mockResolvedValue(true);
+
+      jest.spyOn(fs, "rename").mockImplementation((oldpath, newpath, callback) => {
+  callback("error");
+});
+
+      await registerUser(req, res, next);
+      const expectedError = new Error(expectedErrorMessage);
+
+      expect(next).toHaveBeenCalled()
+    });
+  });
+});
+
+
+
+
+
+
+
+
+

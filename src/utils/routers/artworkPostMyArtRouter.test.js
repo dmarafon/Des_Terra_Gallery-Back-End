@@ -1,4 +1,5 @@
 const request = require("supertest");
+const fs = require("fs");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 const connectDB = require("../../database");
@@ -33,6 +34,10 @@ afterEach(async () => {
 afterAll(async () => {
   await mongoServer.stop();
   await mongoose.connection.close();
+});
+
+jest.spyOn(fs, "rename").mockImplementation((oldpath, newpath, callback) => {
+  callback("error");
 });
 
 describe("Given a POST /allart/ endpoint", () => {
