@@ -7,6 +7,7 @@ const {
   getPaginatedMyArtworks,
   deleteArtwork,
   createArtwork,
+  editArtwork,
 } = require("../../server/controllers/artworkControllers");
 const auth = require("../../server/middlewares/auth");
 
@@ -26,5 +27,12 @@ artworksRouter.get("/myart/:userId", auth, getPaginatedMyArtworks);
 artworksRouter.delete("/:artworkId", auth, deleteArtwork);
 
 artworksRouter.post("/addart", auth, upload.single("artimages"), createArtwork);
+
+artworksRouter.put(
+  "/editart/:artworkId",
+  auth,
+  upload.single("artimages"),
+  editArtwork
+);
 
 module.exports = artworksRouter;
