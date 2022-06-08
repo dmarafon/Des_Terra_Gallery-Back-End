@@ -45,7 +45,7 @@ const imageConverter = async (req, res, next) => {
 
       req.image = imageUrl;
 
-     await fs.readFile(
+      await fs.readFile(
         path.join("uploads", "artimages", newArtImageName),
         async (readError, readFile) => {
           if (readError) {
@@ -64,19 +64,16 @@ const imageConverter = async (req, res, next) => {
 
           req.firebaseUrl = firebaseFileURL;
 
-          next()
+          next();
         }
       );
     } catch {
       const error = customError(401, "Bad request", "Invalid Image");
       next(error);
     }
-    if (req.firebaseUrl) {
-      next();
-    }
   } else {
-    req.firebaseUrl = ""
-    req.image = ""
+    req.firebaseUrl = "";
+    req.image = "";
     next();
   }
 };

@@ -67,9 +67,9 @@ describe("Given an imageConverter middleware function", () => {
           callback();
         });
 
-          jest
+      jest
         .spyOn(path, "join")
-        .mockReturnValue(`${path.join("uploads", "images")}`);
+        .mockReturnValue(`${path.join("uploads", "artimages")}`);
 
       jest
         .spyOn(fs, "rename")
