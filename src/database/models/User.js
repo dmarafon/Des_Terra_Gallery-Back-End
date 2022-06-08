@@ -39,6 +39,9 @@ const UserSchema = new Schema({
   pictureprofile: {
     type: String,
   },
+  imagebackup: {
+    type: String,
+  },
   artist: {
     type: String,
     required: true,

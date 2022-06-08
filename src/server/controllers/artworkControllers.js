@@ -1,5 +1,3 @@
-const path = require("path");
-const fs = require("fs");
 const mongoose = require("mongoose");
 const User = require("../../database/models/User");
 const customError = require("../../utils/customError");
@@ -91,26 +89,13 @@ const createArtwork = async (req, res, next) => {
   try {
     const { userId } = req;
     const artwork = req.body;
-    const { file } = req;
-
-    const newArtImageName = file ? `${Date.now()}${file.originalname}` : "";
-
-    if (file) {
-      fs.rename(
-        path.join("uploads", "artimages", file.filename),
-        path.join("uploads", "artimages", newArtImageName),
-        async (error) => {
-          if (error) {
-            next(error);
-          }
-        }
-      );
-    }
+    const { image, firebaseUrl } = req;
 
     const newArtwork = {
       ...artwork,
       author: [mongoose.Types.ObjectId(userId)],
-      image: file ? path.join("art", newArtImageName) : "",
+      image,
+      imagebackup: firebaseUrl,
     };
     const addArtwork = await Artwork.create(newArtwork);
 
@@ -129,9 +114,39 @@ const createArtwork = async (req, res, next) => {
   }
 };
 
+const editArtwork = async (req, res, next) => {
+  try {
+    const { artworkId } = req.params;
+    let artwork = req.body;
+    const { image, firebaseUrl } = req;
+
+    if (image) {
+      artwork = {
+        ...artwork,
+        image,
+        imagebackup: firebaseUrl,
+      };
+    }
+
+    const updateArtwork = await Artwork.findByIdAndUpdate(artworkId, artwork, {
+      new: true,
+    });
+
+    res.status(200).json({ updateArtwork });
+  } catch {
+    const error = customError(
+      404,
+      "Error, not Found",
+      "The Artwork could not be updated, no Id in the database"
+    );
+    next(error);
+  }
+};
+
 module.exports = {
   getPaginatedArtworks,
   getPaginatedMyArtworks,
   deleteArtwork,
   createArtwork,
+  editArtwork,
 };

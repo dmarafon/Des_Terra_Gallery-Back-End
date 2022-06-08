@@ -8,6 +8,13 @@ const Artwork = require("../../database/models/Artwork");
 
 let mongoServer;
 
+jest.mock("firebase/storage", () => ({
+  ref: jest.fn().mockReturnValue("test"),
+  uploadBytes: jest.fn().mockResolvedValue(),
+  getStorage: jest.fn(),
+  getDownloadURL: jest.fn().mockResolvedValue("url"),
+}));
+
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
 

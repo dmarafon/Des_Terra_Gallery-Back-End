@@ -24,6 +24,9 @@ const ArtworkSchema = new Schema({
   image: {
     type: String,
   },
+  imagebackup: {
+    type: String,
+  },
   description: {
     type: String,
     required: true,
