@@ -63,31 +63,3 @@ describe("Given a registerUser function", () => {
     });
   });
 });
-
-
-  describe("When it is called and the User.create method fails", () => {
-    test("Then it should call the 'next' received function", async () => {
-
-
-      User.findOne = jest.fn().mockResolvedValue(true);
-
-      jest.spyOn(fs, "rename").mockImplementation((oldpath, newpath, callback) => {
-  callback("error");
-});
-
-      await registerUser(req, res, next);
-      const expectedError = new Error(expectedErrorMessage);
-
-      expect(next).toHaveBeenCalled()
-    });
-  });
-});
-
-
-
-
-
-
-
-
-

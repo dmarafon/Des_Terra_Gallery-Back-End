@@ -39,6 +39,7 @@ artworksRouter.put(
   "/editart/:artworkId",
   auth,
   upload.single("artimages"),
+  imageConverter,
   editArtwork
 );
 

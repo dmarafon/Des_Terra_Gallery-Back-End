@@ -3,18 +3,18 @@ const path = require("path");
 const imageConverter = require("./imageConverter");
 
 jest.mock("firebase/storage", () => ({
-  getStorage: () => "test",
-  ref: () => {},
-  getDownloadURL: async () => "myurl.url",
-  uploadBytes: async () => {},
+  ref: jest.fn().mockReturnValue("avatarRef"),
+  uploadBytes: jest.fn().mockResolvedValue(),
+  getStorage: jest.fn(),
+  getDownloadURL: jest.fn().mockResolvedValue("url"),
 }));
 
 const next = jest.fn();
 
 describe("Given an imageConverter middleware function", () => {
   describe("When it's invoked passing file in the request", () => {
-    test("Then it should call the next function 1 time", async () => {
-      const expectedNextCalls = 1;
+    test("Then it should not call the next function", async () => {
+      const expectedNextCalls = 0;
       const req = {
         file: {
           destination: "uploads/artimages",
@@ -52,7 +52,7 @@ describe("Given an imageConverter middleware function", () => {
 
 describe("When it's invoked passing file and the readFile file system function fails", () => {
   test("Then it should call the next function 3 times", async () => {
-    const expectedNextCalls = 3;
+    const expectedNextCalls = 2;
     const req = {
       file: {
         destination: "uploads/artimages",
@@ -89,7 +89,7 @@ describe("When it's invoked passing file and the readFile file system function f
 
 describe("When it's invoked passing file and the rename file system function fails", () => {
   test("Then it should call the next function 3 times", async () => {
-    const expectedNextCalls = 5;
+    const expectedNextCalls = 3;
     const req = {
       file: {
         destination: "uploads/artimages",
@@ -101,6 +101,7 @@ describe("When it's invoked passing file and the rename file system function fai
         path: "uploads/artimages/9d70f017dbcc4a56592467ccca5091fb",
         size: 851349,
       },
+      firebaseUrl: "",
     };
 
     jest

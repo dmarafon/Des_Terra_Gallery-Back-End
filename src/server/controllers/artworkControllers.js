@@ -1,5 +1,3 @@
-const path = require("path");
-const fs = require("fs");
 const mongoose = require("mongoose");
 const User = require("../../database/models/User");
 const customError = require("../../utils/customError");
@@ -120,26 +118,13 @@ const editArtwork = async (req, res, next) => {
   try {
     const { artworkId } = req.params;
     let artwork = req.body;
-    const { file } = req;
+    const { image, firebaseUrl } = req;
 
-    const newArtImageName = file ? `${Date.now()}${file.originalname}` : "";
-
-    if (file) {
-      fs.rename(
-        path.join("uploads", "artimages", file.filename),
-        path.join("uploads", "artimages", newArtImageName),
-        async (error) => {
-          if (error) {
-            next(error);
-          }
-        }
-      );
-    }
-
-    if (file) {
+    if (image) {
       artwork = {
         ...artwork,
-        image: path.join("artimages", newArtImageName),
+        image,
+        imagebackup: firebaseUrl,
       };
     }
 

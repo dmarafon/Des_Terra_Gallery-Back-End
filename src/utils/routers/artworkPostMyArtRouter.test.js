@@ -9,6 +9,13 @@ const mockArtworks = require("../mocks/mockArtworks");
 const Artwork = require("../../database/models/Artwork");
 const mockUsers = require("../../mocks/mockUsers");
 
+jest.mock("firebase/storage", () => ({
+  ref: jest.fn().mockReturnValue("avatarRef"),
+  uploadBytes: jest.fn().mockResolvedValue(),
+  getStorage: jest.fn(),
+  getDownloadURL: jest.fn().mockResolvedValue("url"),
+}));
+
 let mongoServer;
 
 beforeAll(async () => {

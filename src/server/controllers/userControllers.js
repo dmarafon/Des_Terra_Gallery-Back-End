@@ -1,8 +1,6 @@
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jsonwebtoken = require("jsonwebtoken");
-const fs = require("fs");
-const path = require("path");
 const User = require("../../database/models/User");
 const customError = require("../../utils/customError");
 
@@ -51,8 +49,7 @@ const registerUser = async (req, res, next) => {
       phonenumber,
       artist,
     } = req.body;
-    const { file } = req;
-
+    const { image, firebaseUrl } = req;
     const user = await User.findOne({ email });
     if (user) {
       const error = customError(
@@ -65,22 +62,7 @@ const registerUser = async (req, res, next) => {
       return;
     }
 
-    const newImageName = file ? `${Date.now()}${file.originalname}` : "";
-
-    if (file) {
-      fs.rename(
-        path.join("uploads", "images", file.filename),
-        path.join("uploads", "images", newImageName),
-        async (error) => {
-          if (error) {
-            next(error);
-          }
-        }
-      );
-    }
-
     const encryptedPassword = await bcrypt.hash(password, 10);
-
     const newUser = {
       firstname,
       surname,
@@ -93,12 +75,12 @@ const registerUser = async (req, res, next) => {
       phonenumber,
       artist,
       about: "",
-      pictureprofile: file ? path.join("images", newImageName) : "",
+      pictureprofile: image,
+      imagebackup: firebaseUrl,
       artworkauthor: [],
       artworkbought: [],
       artworkrented: [],
     };
-
     await User.create(newUser);
     res.status(201).json({ new_user: { email: newUser.email } });
   } catch {
