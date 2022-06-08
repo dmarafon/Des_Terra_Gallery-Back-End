@@ -1,9 +1,9 @@
 const path = require("path");
 const fs = require("fs");
 const mongoose = require("mongoose");
-const Artwork = require("../../database/models/Artwork");
 const User = require("../../database/models/User");
 const customError = require("../../utils/customError");
+const Artwork = require("../../database/models/Artwork");
 
 const getPaginatedArtworks = async (req, res, next) => {
   const { page = 1, limit = 10 } = req.query;
@@ -92,6 +92,7 @@ const createArtwork = async (req, res, next) => {
     const { userId } = req;
     const artwork = req.body;
     const { file } = req;
+
     const newArtImageName = file ? `${Date.now()}${file.originalname}` : "";
 
     if (file) {
@@ -111,7 +112,6 @@ const createArtwork = async (req, res, next) => {
       author: [mongoose.Types.ObjectId(userId)],
       image: file ? path.join("art", newArtImageName) : "",
     };
-
     const addArtwork = await Artwork.create(newArtwork);
 
     const updateUser = await User.updateOne(
