@@ -123,9 +123,9 @@ const createArtwork = async (req, res, next) => {
     if (updateUser) {
       res.status(201).json({ new_artwork: addArtwork });
     }
-  } catch (error) {
-    const newError = customError(404, { mesg: JSON.stringify(error) });
-    next(newError);
+  } catch {
+    const error = customError(404, "Bad request", "Artwork Not Found");
+    next(error);
   }
 };
 
