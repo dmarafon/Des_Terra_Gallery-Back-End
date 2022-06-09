@@ -29,17 +29,15 @@ const imageConverter = async (req, res, next) => {
       const newArtImageName = file ? `${Date.now()}${file.originalname}` : "";
       const newFileUrl = `uploads\\artimages\\${newArtImageName}`;
 
-      if (file) {
-        fs.rename(
-          path.join("uploads", "artimages", file.filename),
-          path.join("uploads", "artimages", newArtImageName),
-          async (error) => {
-            if (error) {
-              next(error);
-            }
+      fs.rename(
+        path.join("uploads", "artimages", file.filename),
+        path.join("uploads", "artimages", newArtImageName),
+        async (error) => {
+          if (error) {
+            next(error);
           }
-        );
-      }
+        }
+      );
 
       const imageUrl = file ? path.join(newFileUrl) : "";
 
