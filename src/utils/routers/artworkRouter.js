@@ -24,7 +24,7 @@ const upload = multer({
 
 artworksRouter.get("/all", getPaginatedArtworks);
 
-artworksRouter.get("/myart/:userId", auth, getPaginatedMyArtworks);
+artworksRouter.get("/myart", auth, getPaginatedMyArtworks);
 
 artworksRouter.delete("/:artworkId", auth, deleteArtwork);
 
