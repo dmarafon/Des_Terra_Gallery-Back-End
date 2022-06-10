@@ -62,6 +62,29 @@ const getPaginatedMyArtworks = async (req, res, next) => {
   }
 };
 
+const getSingleArtwork = async (req, res, next) => {
+  const { artworkId } = req.params;
+
+  try {
+    const singleArtwork = await Artwork.findById(artworkId).populate({
+      path: "author",
+      select: "firstname surname",
+      model: User,
+    });
+
+    res.status(200).json({
+      singleArtwork,
+    });
+  } catch {
+    const error = customError(
+      400,
+      "Bad request",
+      "Wrong parameters to get Data"
+    );
+    next(error);
+  }
+};
+
 const deleteArtwork = async (req, res, next) => {
   const { userId } = req;
   const { artworkId } = req.params;
@@ -146,6 +169,7 @@ const editArtwork = async (req, res, next) => {
 module.exports = {
   getPaginatedArtworks,
   getPaginatedMyArtworks,
+  getSingleArtwork,
   deleteArtwork,
   createArtwork,
   editArtwork,

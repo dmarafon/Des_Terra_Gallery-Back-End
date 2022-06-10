@@ -5,6 +5,7 @@ const path = require("path");
 const {
   getPaginatedArtworks,
   getPaginatedMyArtworks,
+  getSingleArtwork,
   deleteArtwork,
   createArtwork,
   editArtwork,
@@ -26,6 +27,8 @@ artworksRouter.get("/all", getPaginatedArtworks);
 artworksRouter.get("/myart/:userId", auth, getPaginatedMyArtworks);
 
 artworksRouter.delete("/:artworkId", auth, deleteArtwork);
+
+artworksRouter.get("/single/:artworkId", getSingleArtwork);
 
 artworksRouter.post(
   "/addart",
