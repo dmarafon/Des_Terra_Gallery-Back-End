@@ -83,7 +83,7 @@ describe("When it's invoked passing file and the readFile file system function f
 
     await imageConverter(req, res, next);
 
-    expect(next).toHaveBeenCalledTimes(expectedNextCalls);
+    await expect(next).toHaveBeenCalledTimes(expectedNextCalls);
   });
 });
 
