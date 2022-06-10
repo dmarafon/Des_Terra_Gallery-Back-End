@@ -69,7 +69,7 @@ describe("Given a GET/myart endpoint", () => {
       const {
         body: { message },
       } = await request(app)
-        .get("/artworks/myart/12345")
+        .get("/artworks/myart")
         .set(
           "Authorization",
           `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJqZXN1cyIsImVtYWlsIjoiamVzdXNwZXJlYUBnbWFpbC5jb20iLCJpZCI6IjYyOTUwMjBhZDE1MDQ0NDZkMGMwNGNlOCIsImlhdCI6MTY1NDQ4MTgwOX0.lztbEeyEWS0bTem9gu1RnfQ8yrWpYQa8hXItV-Rx7cQ`
