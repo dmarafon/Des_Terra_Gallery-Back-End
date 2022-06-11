@@ -4,16 +4,50 @@ const customError = require("../../utils/customError");
 const Artwork = require("../../database/models/Artwork");
 
 const getPaginatedArtworks = async (req, res, next) => {
-  const { page = 1, limit = 10 } = req.query;
+  const {
+    page = 1,
+    limit = 9,
+    filterStyle,
+    sortOrderPurchase,
+    sortOrderRent,
+  } = req.query;
   try {
-    const artworks = await Artwork.find()
-      .populate({
-        path: "author",
-        select: "firstname surname",
-        model: User,
-      })
-      .limit(limit * 1)
-      .skip((page - 1) * 1);
+    let artworks;
+
+    if (filterStyle && sortOrderPurchase) {
+      artworks = await Artwork.find({ style: filterStyle })
+        .populate({
+          path: "author",
+          select: "firstname surname",
+          model: User,
+        })
+        .collation({ locale: "es", numericOrdering: true })
+        .sort({ purchaseprice: sortOrderPurchase, title: 1, surname: 1 })
+        .limit(limit * 1)
+        .skip((page - 1) * 1);
+    } else if (filterStyle && sortOrderRent) {
+      artworks = await Artwork.find({ style: filterStyle })
+        .populate({
+          path: "author",
+          select: "firstname surname",
+          model: User,
+        })
+        .collation({ locale: "es", numericOrdering: true })
+        .sort({ monthlyrateprice: sortOrderRent, title: 1, surname: 1 })
+        .limit(limit * 1)
+        .skip((page - 1) * 1);
+    } else {
+      artworks = await Artwork.find()
+        .populate({
+          path: "author",
+          select: "firstname surname",
+          model: User,
+        })
+        .collation({ locale: "es", strength: 2, numericOrdering: true })
+        .sort({ title: 1, surname: 1, monthlyrateprice: 1, purchaseprice: 1 })
+        .limit(limit * 1)
+        .skip((page - 1) * 1);
+    }
 
     const count = await Artwork.countDocuments();
 

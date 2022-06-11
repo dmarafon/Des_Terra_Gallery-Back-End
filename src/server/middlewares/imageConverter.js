@@ -26,7 +26,7 @@ const imageConverter = async (req, res, next) => {
 
   if (file) {
     try {
-      const newArtImageName = file ? `${Date.now()}${file.originalname}` : "";
+      const newArtImageName = `${Date.now()}${file.originalname}`;
       const newFileUrl = `uploads\\artimages\\${newArtImageName}`;
 
       fs.rename(
@@ -39,7 +39,7 @@ const imageConverter = async (req, res, next) => {
         }
       );
 
-      const imageUrl = file ? path.join(newFileUrl) : "";
+      const imageUrl = path.join(newFileUrl);
 
       req.image = imageUrl;
 
