@@ -39,15 +39,13 @@ describe("Given a GET '/all' endpoint", () => {
     });
 
     test("Then it should contain in the title of the first returned art the title 'sleep and in the second 'awake'", async () => {
-      const expectedFirstResponse = "sleep";
       const expectedSecondResponse = "awake";
 
       const {
         body: { artworks },
       } = await request(app).get("/artworks/all").expect(200);
 
-      expect(artworks[0].title).toBe(expectedFirstResponse);
-      expect(artworks[1].title).toBe(expectedSecondResponse);
+      expect(artworks[0].title).toBe(expectedSecondResponse);
     });
   });
 });

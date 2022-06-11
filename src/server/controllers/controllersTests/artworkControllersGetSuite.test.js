@@ -12,8 +12,6 @@ User.skip.mockImplementation(() => {
   throw new Error();
 });
 
-User.countDocuments.mockImplementation();
-
 const next = jest.fn();
 
 describe("Given the getPaginatedArtworks controller", () => {
