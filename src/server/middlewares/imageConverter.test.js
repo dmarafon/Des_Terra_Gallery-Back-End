@@ -20,7 +20,7 @@ describe("Given an imageConverter middleware function", () => {
           destination: "uploads/artimages",
           encoding: "7bit",
           fieldname: "artimages",
-          filename: "9d70f017dbcc4a56592467ccca5091fb",
+          filename: "",
           mimetype: "image/jpeg",
           originalname: "crop1.jpg",
           path: "uploads/artimages/9d70f017dbcc4a56592467ccca5091fb",
