@@ -36,6 +36,28 @@ const getPaginatedArtworks = async (req, res, next) => {
         .sort({ monthlyrateprice: sortOrderRent, title: 1, surname: 1 })
         .limit(limit * 1)
         .skip((page - 1) * 1);
+    } else if (sortOrderRent) {
+      artworks = await Artwork.find()
+        .populate({
+          path: "author",
+          select: "firstname surname",
+          model: User,
+        })
+        .collation({ locale: "es", numericOrdering: true })
+        .sort({ monthlyrateprice: sortOrderRent, title: 1, surname: 1 })
+        .limit(limit * 1)
+        .skip((page - 1) * 1);
+    } else if (sortOrderPurchase) {
+      artworks = await Artwork.find()
+        .populate({
+          path: "author",
+          select: "firstname surname",
+          model: User,
+        })
+        .collation({ locale: "es", numericOrdering: true })
+        .sort({ purchaseprice: sortOrderPurchase, title: 1, surname: 1 })
+        .limit(limit * 1)
+        .skip((page - 1) * 1);
     } else {
       artworks = await Artwork.find()
         .populate({
@@ -44,7 +66,12 @@ const getPaginatedArtworks = async (req, res, next) => {
           model: User,
         })
         .collation({ locale: "es", strength: 2, numericOrdering: true })
-        .sort({ title: 1, surname: 1, monthlyrateprice: 1, purchaseprice: 1 })
+        .sort({
+          title: 1,
+          surname: 1,
+          monthlyrateprice: 1,
+          purchaseprice: 1,
+        })
         .limit(limit * 1)
         .skip((page - 1) * 1);
     }
