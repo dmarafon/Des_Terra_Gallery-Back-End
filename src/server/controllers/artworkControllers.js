@@ -6,13 +6,34 @@ const Artwork = require("../../database/models/Artwork");
 const getPaginatedArtworks = async (req, res, next) => {
   const {
     page = 1,
-    limit = 9,
+    limit = 12,
     filterStyle,
     sortOrderPurchase,
     sortOrderRent,
   } = req.query;
+
   try {
     let artworks;
+
+    const response = async (queriedStyle) => {
+      if (queriedStyle) {
+        const count = await Artwork.countDocuments({ style: queriedStyle });
+
+        res.status(200).json({
+          artworks,
+          currentPage: Math.ceil((page - 1) / limit + 1),
+          totalPage: Math.ceil(count / limit),
+        });
+      } else {
+        const count = await Artwork.countDocuments();
+
+        res.status(200).json({
+          artworks,
+          currentPage: Math.ceil((page - 1) / limit + 1),
+          totalPage: Math.ceil(count / limit),
+        });
+      }
+    };
 
     if (filterStyle && sortOrderPurchase) {
       artworks = await Artwork.find({ style: filterStyle })
@@ -25,6 +46,8 @@ const getPaginatedArtworks = async (req, res, next) => {
         .sort({ purchaseprice: sortOrderPurchase, title: 1, surname: 1 })
         .limit(limit * 1)
         .skip((page - 1) * 1);
+
+      response(filterStyle);
     } else if (filterStyle && sortOrderRent) {
       artworks = await Artwork.find({ style: filterStyle })
         .populate({
@@ -36,6 +59,8 @@ const getPaginatedArtworks = async (req, res, next) => {
         .sort({ monthlyrateprice: sortOrderRent, title: 1, surname: 1 })
         .limit(limit * 1)
         .skip((page - 1) * 1);
+
+      response(filterStyle);
     } else if (sortOrderRent) {
       artworks = await Artwork.find()
         .populate({
@@ -47,6 +72,8 @@ const getPaginatedArtworks = async (req, res, next) => {
         .sort({ monthlyrateprice: sortOrderRent, title: 1, surname: 1 })
         .limit(limit * 1)
         .skip((page - 1) * 1);
+
+      response();
     } else if (sortOrderPurchase) {
       artworks = await Artwork.find()
         .populate({
@@ -58,6 +85,8 @@ const getPaginatedArtworks = async (req, res, next) => {
         .sort({ purchaseprice: sortOrderPurchase, title: 1, surname: 1 })
         .limit(limit * 1)
         .skip((page - 1) * 1);
+
+      response();
     } else {
       artworks = await Artwork.find()
         .populate({
@@ -74,15 +103,9 @@ const getPaginatedArtworks = async (req, res, next) => {
         })
         .limit(limit * 1)
         .skip((page - 1) * 1);
+
+      response();
     }
-
-    const count = await Artwork.countDocuments();
-
-    res.status(200).json({
-      artworks,
-      totalPage: Math.ceil(count / limit),
-      currentPage: page,
-    });
   } catch {
     const error = customError(
       400,
