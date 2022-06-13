@@ -11,14 +11,12 @@ const getPaginatedArtworks = async (req, res, next) => {
     sortOrderPurchase,
     sortOrderRent,
   } = req.query;
-
   try {
     let artworks;
 
     const response = async (queriedStyle) => {
       if (queriedStyle) {
         const count = await Artwork.countDocuments({ style: queriedStyle });
-
         res.status(200).json({
           artworks,
           currentPage: Math.ceil((page - 1) / limit + 1),
@@ -117,7 +115,7 @@ const getPaginatedArtworks = async (req, res, next) => {
 };
 
 const getPaginatedMyArtworks = async (req, res, next) => {
-  const { page = 1, limit = 10 } = req.query;
+  const { page = 1, limit = 12 } = req.query;
   const { userId } = req;
 
   try {
