@@ -9,8 +9,7 @@ const {
 jest.mock("../../../database/models/Artwork", () => ({
   find: jest.fn().mockReturnThis(),
   limit: jest.fn().mockReturnThis(),
-  skip: jest.fn(),
-  countDocuments: jest.fn(),
+  skip: jest.fn().mockReturnThis(),
 }));
 
 Artwork.skip.mockImplementation(() => {
