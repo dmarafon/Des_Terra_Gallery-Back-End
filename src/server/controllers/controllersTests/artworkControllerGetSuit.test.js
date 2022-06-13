@@ -110,4 +110,31 @@ describe("Given the getPaginatedArtworks controller", () => {
       expect(res.status).toHaveBeenLastCalledWith(expectedStatus);
     });
   });
+
+  describe("When invoked passing in the query parameters of the request only an order rent number and finds the artworks", () => {
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn().mockReturnThis(),
+    };
+
+    test("Then response status will be 200", async () => {
+      const expectedStatus = 200;
+
+      const req = {
+        query: {
+          page: 1,
+          limit: 12,
+          sortOrderPurchase: "1",
+        },
+      };
+
+      mockingoose(Artwork).toReturn(mockArtwork, "find");
+
+      Artwork.countDocuments = jest.fn().mockReturnValue(2);
+
+      await getPaginatedArtworks(req, res, next);
+
+      expect(res.status).toHaveBeenLastCalledWith(expectedStatus);
+    });
+  });
 });
