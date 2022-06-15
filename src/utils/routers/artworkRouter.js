@@ -12,14 +12,18 @@ const {
 } = require("../../server/controllers/artworkControllers");
 const auth = require("../../server/middlewares/auth");
 const imageConverter = require("../../server/middlewares/imageConverter");
+const webpConverter = require("../../server/middlewares/webpConverter");
 
 const artworksRouter = express.Router();
 
 const upload = multer({
-  dest: path.join("uploads", "artimages"),
-  limits: {
-    fileSize: 8000000,
-  },
+  // eslint-disable-next-line new-cap
+  storage: new multer.diskStorage({
+    destination: path.join("uploads", "artimages"),
+    limits: {
+      fileSize: 8000000,
+    },
+  }),
 });
 
 artworksRouter.get("/all", getPaginatedArtworks);
@@ -34,6 +38,7 @@ artworksRouter.post(
   "/addart",
   auth,
   upload.single("artimages"),
+  webpConverter,
   imageConverter,
   createArtwork
 );
@@ -42,6 +47,7 @@ artworksRouter.put(
   "/editart/:artworkId",
   auth,
   upload.single("artimages"),
+  webpConverter,
   imageConverter,
   editArtwork
 );
