@@ -22,12 +22,11 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 const imageConverter = async (req, res, next) => {
-  const { file } = req;
+  const { file, webpImage } = req;
 
   if (file) {
     try {
       const newArtImageName = `${Date.now()}${file.originalname}`;
-      const newFileUrl = `uploads\\artimages\\${newArtImageName}`;
 
       fs.rename(
         path.join("uploads", "artimages", file.filename),
@@ -39,10 +38,26 @@ const imageConverter = async (req, res, next) => {
         }
       );
 
+      const newArtImageNameWebP = `${newArtImageName
+        .split(".")
+        .slice(0, -1)
+        .join(".")}.webp`;
+
+      fs.writeFile(
+        path.join("uploads", "artimages", newArtImageNameWebP),
+        webpImage,
+        async (error) => {
+          if (error) {
+            next(error);
+          }
+        }
+      );
+
+      const newFileUrl = `uploads\\artimages\\${newArtImageNameWebP}`;
+
       const imageUrl = path.join(newFileUrl);
 
       req.image = imageUrl;
-
       await fs.readFile(
         path.join("uploads", "artimages", newArtImageName),
         async (readError, readFile) => {
@@ -54,11 +69,16 @@ const imageConverter = async (req, res, next) => {
 
           const storageRef = ref(storage, newArtImageName);
           const metadata = {
-            contentType: "image",
+            contentType: "image/webp",
           };
+
+          const storageRefWebp = ref(storage, newArtImageNameWebP);
+
+          await uploadBytes(storageRefWebp, webpImage, metadata);
+
           await uploadBytes(storageRef, readFile, metadata);
 
-          const firebaseFileURL = await getDownloadURL(storageRef);
+          const firebaseFileURL = await getDownloadURL(storageRefWebp);
 
           req.firebaseUrl = firebaseFileURL;
 
