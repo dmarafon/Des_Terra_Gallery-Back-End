@@ -78,7 +78,7 @@ describe("Given a POST /allart/ endpoint", () => {
         .post(`/artworks/addart`)
         .set("Authorization", `Bearer ${token}`)
         .send(artToBeCreated)
-        .expect(401);
+        .expect(201);
     });
   });
 });
