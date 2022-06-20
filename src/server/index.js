@@ -13,8 +13,8 @@ const corsOptions = {
     "http://localhost:4000",
     "http://localhost:4001",
     "http://localhost:4002",
-    "https://daniell-marafon-front-final-project-202204-bcn.netlify.app/",
-    "https://daniell-marafon-front-final-project-202204-bcn.netlify.app",
+    "https://desterragallery.netlify.app/",
+    "https://desterragallery.netlify.app",
   ],
 };
 
