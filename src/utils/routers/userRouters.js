@@ -9,14 +9,18 @@ const {
 } = require("../../server/controllers/userControllers");
 const { credentialsLoginSchema } = require("../schemas/userCredentialsSchema");
 const imageConverter = require("../../server/middlewares/imageConverter");
+const webpConverter = require("../../server/middlewares/webpConverter");
 
 const usersRouter = express.Router();
 
 const upload = multer({
-  dest: path.join("uploads", "artimages"),
-  limits: {
-    fileSize: 8000000,
-  },
+  // eslint-disable-next-line new-cap
+  storage: new multer.diskStorage({
+    destination: path.join("uploads", "artimages"),
+    limits: {
+      fileSize: 8000000,
+    },
+  }),
 });
 
 usersRouter.post("/login", validate(credentialsLoginSchema), loginUser);
@@ -24,6 +28,7 @@ usersRouter.post("/login", validate(credentialsLoginSchema), loginUser);
 usersRouter.post(
   "/register",
   upload.single("artimages"),
+  webpConverter,
   imageConverter,
   registerUser
 );
