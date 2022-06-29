@@ -20,10 +20,10 @@ const upload = multer({
   // eslint-disable-next-line new-cap
   storage: new multer.diskStorage({
     destination: path.join("uploads", "artimages"),
-    limits: {
-      fileSize: 8000000,
-    },
   }),
+  limits: {
+    fileSize: 8000000,
+  },
 });
 
 artworksRouter.get("/all", getPaginatedArtworks);
